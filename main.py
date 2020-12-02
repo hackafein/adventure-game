@@ -305,6 +305,8 @@ class World():
 				if tile == 8:
 					exit = Exit(col_count * tile_size, row_count * tile_size - (tile_size // 2))
 					exit_group.add(exit)
+				if tile == 9:
+					player= Player(col_count * tile_size, row_count * tile_size - (tile_size // 2))
 				col_count += 1
 			row_count += 1
 
@@ -389,7 +391,6 @@ class Exit(pygame.sprite.Sprite):
 
 
 
-player = Player(100, screen_height - 130)
 
 blob_group = pygame.sprite.Group()
 platform_group = pygame.sprite.Group()
