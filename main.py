@@ -3,6 +3,7 @@ from pygame.locals import *
 from pygame import mixer
 import pickle
 from os import path
+import random
 
 #burada pygame mixer yani müzik oynatıcısını kuruyoruz
 pygame.mixer.pre_init(44100, -16, 2, 512)
@@ -43,7 +44,7 @@ blue = (0, 0, 255)
 
 #resimleri yükledim
 sun_img = pygame.image.load('img/sun.png')
-bg_img = pygame.image.load('img/sky.png')
+bg_img = [pygame.image.load('img/sky.png'),pygame.image.load('img/mars.png'),pygame.image.load('img/mountain.png')]
 restart_img = pygame.image.load('img/restart_btn.png')
 start_img = pygame.image.load('img/start_btn.png')
 exit_img = pygame.image.load('img/exit_btn.png')
@@ -273,6 +274,7 @@ class World():
 		dirt_img = pygame.image.load('img/dirt.png')
 		grass_img = pygame.image.load('img/grass.png')
 
+
 		row_count = 0
 		for row in data:
 			col_count = 0
@@ -423,7 +425,7 @@ while run:
 
 	clock.tick(fps)
 
-	screen.blit(bg_img, (0, 0))
+	screen.blit(bg_img[random.randint(0,2)], (0, 0))
 	screen.blit(sun_img, (100, 100))
 
 	if main_menu == True:
