@@ -4,26 +4,30 @@ from pygame import mixer
 import pickle
 from os import path
 
+#burada pygame mixer yani müzik oynatıcısını kuruyoruz
 pygame.mixer.pre_init(44100, -16, 2, 512)
 mixer.init()
 pygame.init()
 
+# pygame oyun içinde saniyede akacak frame sayısını belirliyoruz
 clock = pygame.time.Clock()
 fps = 60
 
+#Oyun pencere genişliği ve yüksekliğini ayarladık
 screen_width = 1000
 screen_height = 1000
 
+# ekranı oluşturduk ve pencere başlığını belirledik
 screen = pygame.display.set_mode((screen_width, screen_height))
-pygame.display.set_caption('Platformer')
+pygame.display.set_caption('Adventure game By Furkan Ceran')
 
 
-#define font
+#Yazı fontunu ayarlıyoruz
 font = pygame.font.SysFont('Bauhaus 93', 70)
 font_score = pygame.font.SysFont('Bauhaus 93', 30)
 
 
-#define game variables
+#oyuna dair değerleri burada tanımladım
 tile_size = 50
 game_over = 0
 main_menu = True
@@ -32,19 +36,19 @@ max_levels = 7
 score = 0
 
 
-#define colours
+#renkleri belirliyorum ileride kullanıcağım
 white = (255, 255, 255)
 blue = (0, 0, 255)
 
 
-#load images
+#resimleri yükledim
 sun_img = pygame.image.load('img/sun.png')
 bg_img = pygame.image.load('img/sky.png')
 restart_img = pygame.image.load('img/restart_btn.png')
 start_img = pygame.image.load('img/start_btn.png')
 exit_img = pygame.image.load('img/exit_btn.png')
 
-#load sounds
+#müzikleri yüklüyorum
 pygame.mixer.music.load('img/music.wav')
 pygame.mixer.music.play(-1, 0.0, 5000)
 coin_fx = pygame.mixer.Sound('img/coin.wav')
@@ -60,7 +64,7 @@ def draw_text(text, font, text_col, x, y):
 	screen.blit(img, (x, y))
 
 
-#function to reset level
+# leveli resetliyeceğim fonksiyonu yazdım
 def reset_level(level):
 	player.reset(100, screen_height - 130)
 	blob_group.empty()
@@ -69,7 +73,7 @@ def reset_level(level):
 	lava_group.empty()
 	exit_group.empty()
 
-	#load in level data and create world
+	# burası levele göre dünyayı pickle formatında yükleyip oluşturacak kısım
 	if path.exists(f'level{level}_data'):
 		pickle_in = open(f'level{level}_data', 'rb')
 		world_data = pickle.load(pickle_in)
