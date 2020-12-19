@@ -78,7 +78,7 @@ def reset_level(level):
 		pickle_in = open(f'level{level}_data', 'rb')
 		world_data = pickle.load(pickle_in)
 	world = World(world_data)
-	#create dummy coin for showing the score
+	#skoru yazdıracak yeri ekran da belirledim sol üste yazdırıcağım
 	score_coin = Coin(tile_size // 2, tile_size // 2)
 	coin_group.add(score_coin)
 	return world
@@ -95,10 +95,10 @@ class Button():
 	def draw(self):
 		action = False
 
-		#get mouse position
+		#mouse pozisyonlarını alıyorum
 		pos = pygame.mouse.get_pos()
 
-		#check mouseover and clicked conditions
+		# Mouse tıklandı mı kontrolü
 		if self.rect.collidepoint(pos):
 			if pygame.mouse.get_pressed()[0] == 1 and self.clicked == False:
 				action = True
@@ -108,7 +108,7 @@ class Button():
 			self.clicked = False
 
 
-		#draw button
+		#dbutonu çizdirdim
 		screen.blit(self.image, self.rect)
 
 		return action
@@ -125,7 +125,7 @@ class Player():
 		col_thresh = 20
 
 		if game_over == 0:
-			#get keypresses
+			#Butonların basılıp basılmadığını algıladığımız kısım
 			key = pygame.key.get_pressed()
 			if key[pygame.K_SPACE] and self.jumped == False and self.in_air == False:
 				jump_fx.play()
@@ -150,7 +150,7 @@ class Player():
 					self.image = self.images_left[self.index]
 
 
-			#handle animation
+			# Yürüme animasyonunu burada oluşturdum
 			if self.counter > walk_cooldown:
 				self.counter = 0	
 				self.index += 1
@@ -162,79 +162,79 @@ class Player():
 					self.image = self.images_left[self.index]
 
 
-			#add gravity
+			#yerçekimi ekledim
 			self.vel_y += 1
 			if self.vel_y > 10:
 				self.vel_y = 10
 			dy += self.vel_y
 
-			#check for collision
+			# Çapışma var mı onu belirledim
 			self.in_air = True
 			for tile in world.tile_list:
-				#check for collision in x direction
+				# burası x eksenindeki çarpışmaları kontrol eder
 				if tile[1].colliderect(self.rect.x + dx, self.rect.y, self.width, self.height):
 					dx = 0
-				#check for collision in y direction
+				#burası y eksenindeki çarpışmaları kontrol eder
 				if tile[1].colliderect(self.rect.x, self.rect.y + dy, self.width, self.height):
-					#check if below the ground i.e. jumping
+					#zıplama durumundaki çarpmanın sonucu düşeriz
 					if self.vel_y < 0:
 						dy = tile[1].bottom - self.rect.top
 						self.vel_y = 0
-					#check if above the ground i.e. falling
+					#zemine düşersek dururuz
 					elif self.vel_y >= 0:
 						dy = tile[1].top - self.rect.bottom
 						self.vel_y = 0
 						self.in_air = False
 
 
-			#check for collision with enemies
+			#düşmanla olan çarpışmayı burada kontrol ediyorum
 			if pygame.sprite.spritecollide(self, blob_group, False):
 				game_over = -1
 				game_over_fx.play()
 
-			#check for collision with lava
+			#lav ile olan çarpışmayı burada kontrol ediyorum
 			if pygame.sprite.spritecollide(self, lava_group, False):
 				game_over = -1
 				game_over_fx.play()
 
-			#check for collision with exit
+			#çıkışa girip girmediğimi burada kontrol ediyorum
 			if pygame.sprite.spritecollide(self, exit_group, False):
 				game_over = 1
 
 
-			#check for collision with platforms
+			#platormla olan çarpışmalar
 			for platform in platform_group:
-				#collision in the x direction
+				#x ekseni
 				if platform.rect.colliderect(self.rect.x + dx, self.rect.y, self.width, self.height):
 					dx = 0
-				#collision in the y direction
+				#y ekseni
 				if platform.rect.colliderect(self.rect.x, self.rect.y + dy, self.width, self.height):
-					#check if below platform
+					#aşağı
 					if abs((self.rect.top + dy) - platform.rect.bottom) < col_thresh:
 						self.vel_y = 0
 						dy = platform.rect.bottom - self.rect.top
-					#check if above platform
+					#yukarı
 					elif abs((self.rect.bottom + dy) - platform.rect.top) < col_thresh:
 						self.rect.bottom = platform.rect.top - 1
 						self.in_air = False
 						dy = 0
-					#move sideways with the platform
+					
 					if platform.move_x != 0:
 						self.rect.x += platform.move_direction
 
 
-			#update player coordinates
+			#oyuncu koordinatlarını güncelledim
 			self.rect.x += dx
 			self.rect.y += dy
 
 
 		elif game_over == -1:
 			self.image = self.dead_image
-			draw_text('GAME OVER!', font, blue, (screen_width // 2) - 200, screen_height // 2)
+			draw_text('Kaybettin !', font, blue, (screen_width // 2) - 200, screen_height // 2)
 			if self.rect.y > 200:
 				self.rect.y -= 5
 
-		#draw player onto screen
+		#oyuncuyu ekrana çizdirdim
 		screen.blit(self.image, self.rect)
 
 		return game_over
@@ -269,7 +269,7 @@ class World():
 	def __init__(self, data):
 		self.tile_list = []
 
-		#load images
+		#dünya resimlerini yükledim
 		dirt_img = pygame.image.load('img/dirt.png')
 		grass_img = pygame.image.load('img/grass.png')
 
@@ -401,18 +401,18 @@ lava_group = pygame.sprite.Group()
 coin_group = pygame.sprite.Group()
 exit_group = pygame.sprite.Group()
 
-#create dummy coin for showing the score
+#skore yazılacak yeri belirledim ve yazdırdım
 score_coin = Coin(tile_size // 2, tile_size // 2)
 coin_group.add(score_coin)
 
-#load in level data and create world
+#levellerin verisini yükle ve dünyayı oluştur
 if path.exists(f'level{level}_data'):
 	pickle_in = open(f'level{level}_data', 'rb')
 	world_data = pickle.load(pickle_in)
 world = World(world_data)
 
 
-#create buttons
+#buton yaratır
 restart_button = Button(screen_width // 2 - 50, screen_height // 2 + 100, restart_img)
 start_button = Button(screen_width // 2 - 350, screen_height // 2, start_img)
 exit_button = Button(screen_width // 2 + 150, screen_height // 2, exit_img)
@@ -437,8 +437,8 @@ while run:
 		if game_over == 0:
 			blob_group.update()
 			platform_group.update()
-			#update score
-			#check if a coin has been collected
+			#skoru günceller
+			# coin toplandı mı kontrol et toplandıysa skoru artır
 			if pygame.sprite.spritecollide(player, coin_group, True):
 				score += 1
 				coin_fx.play()
@@ -452,7 +452,7 @@ while run:
 
 		game_over = player.update(game_over)
 
-		#if player has died
+		#eğer oyuncu öldüyse
 		if game_over == -1:
 			if restart_button.draw():
 				world_data = []
@@ -460,20 +460,20 @@ while run:
 				game_over = 0
 				score = 0
 
-		#if player has completed the level
+		#eğer oyuncu leveli bitirdiyse kapıya ulaştıysa
 		if game_over == 1:
-			#reset game and go to next level
+			#Oyunu sıfırla leveli 1 artır
 			level += 1
 			if level <= max_levels:
-				#reset level
+				#Leveli resetler
 				world_data = []
 				world = reset_level(level)
 				game_over = 0
 			else:
-				draw_text('YOU WIN!', font, blue, (screen_width // 2) - 140, screen_height // 2)
+				draw_text('KAZANDIN!!', font, blue, (screen_width // 2) - 140, screen_height // 2)
 				if restart_button.draw():
 					level = 1
-					#reset level
+					#Leveli resetler
 					world_data = []
 					world = reset_level(level)
 					game_over = 0
