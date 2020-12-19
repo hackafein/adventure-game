@@ -45,11 +45,11 @@ blue = (0, 0, 255)
 #resimleri yükledim
 sun_img = pygame.image.load('img/sun.png')
 bg_img = [pygame.image.load('img/sky.png'),pygame.image.load('img/mars.png'),pygame.image.load('img/mountain.png'),pygame.image.load('img/stars.png'),pygame.image.load('img/desert.png'),pygame.image.load('img/forest.png')]
-bg_selected=bg_img[random.randint(0,6)]
+bg_selected=bg_img[random.randint(0,5)]
 grass_img_list=[pygame.image.load('img/grass.png'),pygame.image.load('img/redgrass.png'),pygame.image.load('img/beton.png')]
-grass_img = grass_img_list[random.randint(0,3)]
-dirt_img_list = [pygame.image.load('img/dirt.png'),pygame.image.load('img/betonblok.png'),pygame.image.load('img/wood.png'),pygame.image.load('img/sandblock.png')
-dirt_img = dirt_img_list[random.randint(0,4)]
+grass_img = grass_img_list[random.randint(0,2)]
+dirt_img_list = [pygame.image.load('img/dirt.png'),pygame.image.load('img/betonblok.png'),pygame.image.load('img/wood.png'),pygame.image.load('img/sandblock.png')]
+dirt_img = dirt_img_list[random.randint(0,3)]
 restart_img = pygame.image.load('img/restart_btn.png')
 start_img = pygame.image.load('img/start_btn.png')
 exit_img = pygame.image.load('img/exit_btn.png')
@@ -470,9 +470,9 @@ while run:
 		if game_over == 1:
 			#Oyunu sıfırla leveli 1 artır
 			level += 1
-			bg_selected=bg_img[random.randint(0,6)]
-			grass_img = grass_img_list[random.randint(0,3)]
-			dirt_img=dirt_img_list[random.randint(0,4)]
+			bg_selected=bg_img[random.randint(0,5)]
+			grass_img = grass_img_list[random.randint(0,2)]
+			dirt_img=dirt_img_list[random.randint(0,3)]
 
 			if level <= max_levels:
 				#Leveli resetler
