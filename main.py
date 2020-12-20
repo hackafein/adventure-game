@@ -32,8 +32,8 @@ font_score = pygame.font.SysFont('Bauhaus 93', 30)
 tile_size = 50
 game_over = 0
 main_menu = True
-level = 3
-max_levels = 7
+level = 0
+max_levels = 999
 score = 0
 
 
@@ -44,7 +44,7 @@ blue = (0, 0, 255)
 
 #resimleri yükledim
 sun_img = pygame.image.load('img/sun.png')
-bg_img = [pygame.image.load('img/sky.png'),pygame.image.load('img/mars.png'),pygame.image.load('img/mountain.png'),pygame.image.load('img/stars.png'),pygame.image.load('img/desert.png'),pygame.image.load('img/forest.png')]
+bg_img = [pygame.image.load('img/sky.png'),pygame.image.load('img/purple.png'),pygame.image.load('img/mountain.png'),pygame.image.load('img/stars.png'),pygame.image.load('img/desert.png'),pygame.image.load('img/forest.png')]
 bg_selected=bg_img[random.randint(0,5)]
 grass_img_list=[pygame.image.load('img/grass.png'),pygame.image.load('img/redgrass.png'),pygame.image.load('img/beton.png')]
 grass_img = grass_img_list[random.randint(0,2)]
